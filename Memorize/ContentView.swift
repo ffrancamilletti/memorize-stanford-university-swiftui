@@ -8,26 +8,31 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    var emojis = ["👀", "👻", "👨‍🦰", "😻"]
+    
     var body: some View {
         HStack {
-            CardView()
-            CardView()
-            CardView()
-            CardView()
+            CardView(cardContent: emojis[0])
+            CardView(cardContent: emojis[1])
+            CardView(cardContent: emojis[2])
+            CardView(cardContent: emojis[3])
         }
         .padding(.all).foregroundColor(/*@START_MENU_TOKEN@*/.red/*@END_MENU_TOKEN@*/)
     }
 }
 
 struct CardView: View {
+    var cardContent: String
     @State var faceUp = true
+    
     var body: some View {
         ZStack {
             let shape = RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
             if faceUp {
                 shape.fill().foregroundColor(.white)
                 shape.stroke(lineWidth: 3)
-                Text("🥵").font(.largeTitle)
+                Text(cardContent).font(.largeTitle)
             } else {
                 shape.fill()
             }
