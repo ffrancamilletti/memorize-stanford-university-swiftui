@@ -13,10 +13,9 @@ struct ContentView: View {
     
     var body: some View {
         HStack {
-            CardView(cardContent: emojis[0])
-            CardView(cardContent: emojis[1])
-            CardView(cardContent: emojis[2])
-            CardView(cardContent: emojis[3])
+            ForEach(emojis, id: \.self, content: { emoji in
+                CardView(cardContent: emoji)
+            })
         }
         .padding(.all).foregroundColor(/*@START_MENU_TOKEN@*/.red/*@END_MENU_TOKEN@*/)
     }
@@ -42,8 +41,6 @@ struct CardView: View {
         }
     }
 }
-
-
 
 
 struct ContentView_Previews: PreviewProvider {
