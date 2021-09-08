@@ -9,16 +9,20 @@ import SwiftUI
 
 struct ContentView: View {
     
-    var emojis = ["🛳", "🏍", "🛵", "🚀", "🚅", "🚜", "✈️", "🚗", "🛴", "⛵️"]
-    @State var emojiCount = 6
+    var emojis = ["🛳", "🏍", "🛵", "🚀", "🚅", "🚜", "✈️", "🚗", "🛴", "⛵️","🚤","🚑","🚛"]
+    @State var emojiCount = 10
     
     var body: some View {
         VStack {
-            HStack {
-                ForEach(emojis[0..<emojiCount], id: \.self) { emoji in
-                    CardView(cardContent: emoji)
+            ScrollView {
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 75))]) {
+                    ForEach(emojis[0..<emojiCount], id: \.self) { emoji in
+                        CardView(cardContent: emoji)
+                            .aspectRatio(2/3, contentMode: .fit)
+                    }
                 }
             }
+            .foregroundColor(.red)
             Spacer()
             HStack {
                 remove
@@ -29,7 +33,6 @@ struct ContentView: View {
             .font(.largeTitle)
         }
         .padding(.all)
-        .foregroundColor(/*@START_MENU_TOKEN@*/.red/*@END_MENU_TOKEN@*/)
     }
     
     var remove: some View {
@@ -39,7 +42,6 @@ struct ContentView: View {
             }
         } label: {
             Image(systemName: "minus.circle")
-                .foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
         }
     }
     
@@ -50,7 +52,6 @@ struct ContentView: View {
             }
         } label: {
             Image(systemName: "plus.circle")
-                .foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
         }
     }
 }
@@ -61,10 +62,10 @@ struct CardView: View {
     
     var body: some View {
         ZStack {
-            let shape = RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
+            let shape = RoundedRectangle(cornerRadius: 25)
             if faceUp {
                 shape.fill().foregroundColor(.white)
-                shape.stroke(lineWidth: 3)
+                shape.strokeBorder(lineWidth: 3)
                 Text(cardContent).font(.largeTitle)
             } else {
                 shape.fill()
