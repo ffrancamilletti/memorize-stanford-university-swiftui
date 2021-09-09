@@ -9,50 +9,63 @@ import SwiftUI
 
 struct ContentView: View {
     
-    var emojis = ["🛳", "🏍", "🛵", "🚀", "🚅", "🚜", "✈️", "🚗", "🛴", "⛵️","🚤","🚑","🚛"]
-    @State var emojiCount = 10
+    var vehicles = ["🛳", "🏍", "🛵", "🚀", "🚅", "🚜", "✈️", "🚗", "🛴", "⛵️","🚤","🚑","🚛"]
+    var fruits = ["🍊", "🍌", "🍉", "🍇", "🍍", "🍒", "🍓", "🍎", "🥝", "🍑", "🍋", "🥥", "🥭"]
+    var animals = ["🐭", "🐹", "🐔", "🐸", "🐒", "🐻", "🦁", "🐴", "🐶", "🐷", "🐻‍❄️", "🦊", "🐨"]
+    
+    @State var selectedGroup : [String]? = nil
+    @State var groupCount = 13
     
     var body: some View {
         VStack {
+            
+            Text("Memorize!")
+                .font(.largeTitle)
+                .fontWeight(.medium)
+                .foregroundColor(Color.blue)
+            
             ScrollView {
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 75))]) {
-                    ForEach(emojis[0..<emojiCount], id: \.self) { emoji in
+                    ForEach(selectedGroup?.shuffled() ?? [], id: \.self) { emoji in
                         CardView(cardContent: emoji)
                             .aspectRatio(2/3, contentMode: .fit)
                     }
                 }
             }
             .foregroundColor(.red)
-            Spacer()
-            HStack {
-                remove
-                Spacer()
-                add
-            }
-            .padding(.horizontal)
             .font(.largeTitle)
+            
+            HStack {
+                Button(action: {
+                        selectedGroup = vehicles
+                    }, label: {
+                        VStack {
+                            Image(systemName: "car.fill")
+                            Text("Vehicles")
+                    }
+                })
+                Spacer()
+                Button(action: {
+                        selectedGroup = fruits
+                    }, label: {
+                        VStack {
+                            Image(systemName: "leaf.fill")
+                            Text("Fruits")
+                    }
+                })
+                Spacer()
+                Button(action: {
+                        selectedGroup = animals
+                }, label: {
+                    VStack {
+                        Image(systemName: "tortoise.fill")
+                        Text("Animals")
+                    }
+                })
+            }
+            .padding(.horizontal, 40.0)
         }
         .padding(.all)
-    }
-    
-    var remove: some View {
-        Button {
-            if emojiCount > 1 {
-            emojiCount -= 1
-            }
-        } label: {
-            Image(systemName: "minus.circle")
-        }
-    }
-    
-    var add: some View {
-        Button {
-            if emojiCount < emojis.count {
-            emojiCount += 1
-            }
-        } label: {
-            Image(systemName: "plus.circle")
-        }
     }
 }
 
