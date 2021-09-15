@@ -10,13 +10,13 @@ import SwiftUI
 struct ContentView: View {
     
     var vehicles = ["🛳", "🏍", "🛵", "🚀", "🚅", "🚜", "✈️", "🚗", "🛴", "⛵️","🚤","🚑","🚛"]
-    var fruits = ["🍊", "🍌", "🍉", "🍇", "🍍", "🍒", "🍓", "🍎", "🥝", "🍑", "🍋", "🥥", "🥭"]
-    var animals = ["🐭", "🐹", "🐔", "🐸", "🐒", "🐻", "🦁", "🐴", "🐶", "🐷", "🐻‍❄️", "🦊", "🐨"]
+    var fruits = ["🍊", "🍌", "🍉", "🍇", "🍍", "🍒", "🍓", "🍎", "🥝", "🍑", "🍋"]
+    var animals = ["🐭", "🐹", "🐔", "🐸", "🐒", "🐻", "🦁", "🐴", "🐶", "🐷", "🐻‍❄️", "🦊", "🐨", "🐧", "🐮"]
     
     @State var selectedGroup : [String]? = nil
-    @State var groupCount = 13
     
     var body: some View {
+        
         VStack {
             
             Text("Memorize!")
@@ -36,6 +36,7 @@ struct ContentView: View {
             .font(.largeTitle)
             
             HStack {
+                
                 Button(action: {
                         selectedGroup = vehicles
                     }, label: {
@@ -44,7 +45,9 @@ struct ContentView: View {
                             Text("Vehicles")
                     }
                 })
+                
                 Spacer()
+                
                 Button(action: {
                         selectedGroup = fruits
                     }, label: {
@@ -53,13 +56,15 @@ struct ContentView: View {
                             Text("Fruits")
                     }
                 })
+                
                 Spacer()
+                
                 Button(action: {
                         selectedGroup = animals
-                }, label: {
-                    VStack {
-                        Image(systemName: "tortoise.fill")
-                        Text("Animals")
+                    }, label: {
+                        VStack {
+                            Image(systemName: "tortoise.fill")
+                            Text("Animals")
                     }
                 })
             }
