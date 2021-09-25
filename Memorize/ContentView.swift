@@ -10,10 +10,10 @@ import SwiftUI
 struct ContentView: View {
     
     var vehicles = ["🛳", "🏍", "🛵", "🚀", "🚅", "🚜", "✈️", "🚗", "🛴", "⛵️","🚤","🚑","🚛"]
-    var fruits = ["🍊", "🍌", "🍉", "🍇", "🍍", "🍒", "🍓", "🍎", "🥝", "🍑", "🍋"]
-    var animals = ["🐭", "🐹", "🐔", "🐸", "🐒", "🐻", "🦁", "🐴", "🐶", "🐷", "🐻‍❄️", "🦊", "🐨", "🐧", "🐮"]
+    var fruits = ["🍊", "🍌", "🍉", "🍇", "🍍", "🍒", "🍓", "🍎", "🥝", "🍑", "🍋", "🥭", "🍈"]
+    var animals = ["🐭", "🐹", "🐔", "🐸", "🐒", "🐻", "🦁", "🐴", "🐶", "🐷", "🐻‍❄️", "🦊", "🐨"]
     
-    @State var selectedGroup : [String]? = nil
+    @State var selectedGroup: [String] = []
     
     var body: some View {
         
@@ -25,8 +25,8 @@ struct ContentView: View {
                 .foregroundColor(Color.blue)
             
             ScrollView {
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 75))]) {
-                    ForEach(selectedGroup?.shuffled() ?? [], id: \.self) { emoji in
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 70))]) {
+                    ForEach(selectedGroup.shuffled(), id: \.self) { emoji in
                         CardView(cardContent: emoji)
                             .aspectRatio(2/3, contentMode: .fit)
                     }
@@ -34,37 +34,40 @@ struct ContentView: View {
             }
             .foregroundColor(.red)
             .font(.largeTitle)
+            .onAppear(){
+                selectedGroup = vehicles
+            }
             
             HStack {
                 
                 Button(action: {
-                        selectedGroup = vehicles
-                    }, label: {
-                        VStack {
-                            Image(systemName: "car.fill")
-                            Text("Vehicles")
+                    selectedGroup = vehicles
+                }, label: {
+                    VStack {
+                        Image(systemName: "car.fill")
+                        Text("Vehicles")
                     }
                 })
                 
                 Spacer()
                 
                 Button(action: {
-                        selectedGroup = fruits
-                    }, label: {
-                        VStack {
-                            Image(systemName: "leaf.fill")
-                            Text("Fruits")
+                    selectedGroup = fruits
+                }, label: {
+                    VStack {
+                        Image(systemName: "leaf.fill")
+                        Text("Fruits")
                     }
                 })
                 
                 Spacer()
                 
                 Button(action: {
-                        selectedGroup = animals
-                    }, label: {
-                        VStack {
-                            Image(systemName: "tortoise.fill")
-                            Text("Animals")
+                    selectedGroup = animals
+                }, label: {
+                    VStack {
+                        Image(systemName: "tortoise.fill")
+                        Text("Animals")
                     }
                 })
             }
@@ -75,8 +78,9 @@ struct ContentView: View {
 }
 
 struct CardView: View {
+    
     var cardContent: String
-    @State var faceUp = true
+    @State var faceUp = false
     
     var body: some View {
         ZStack {
@@ -94,7 +98,6 @@ struct CardView: View {
         }
     }
 }
-
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
