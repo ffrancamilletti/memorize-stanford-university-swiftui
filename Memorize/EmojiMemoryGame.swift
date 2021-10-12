@@ -8,7 +8,17 @@
 import SwiftUI
 
 class EmojiMemoryGame {
-    private(set) var model: MemoryGame<String> = MemoryGame<String>(numberOfPairsOfCards: <#T##Int#>)
+    
+    static let vehicles = ["🛳", "🏍", "🛵", "🚀", "🚅", "🚜", "✈️", "🚗", "🛴", "⛵️","🚤","🚑","🚛"]
+    
+    static func createMemoryGame() -> MemoryGame<String> {
+        MemoryGame<String>(numberOfPairsOfCards: 4) { pairIndex in
+            vehicles[pairIndex]
+        }
+    }
+    
+    private(set) var model: MemoryGame<String> = createMemoryGame()
+    
     
     var cards: Array<MemoryGame<String>.Card> {
         return model.cards
