@@ -9,11 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     
-    let vehicles = ["🛳", "🏍", "🛵", "🚀", "🚅", "🚜", "✈️", "🚗", "🛴", "⛵️","🚤","🚑","🚛"]
-    let fruits = ["🍊", "🍌", "🍉", "🍇", "🍍", "🍒", "🍓", "🍎", "🥝", "🍑", "🍋", "🥭", "🍈"]
-    let animals = ["🐭", "🐹", "🐔", "🐸", "🐒", "🐻", "🦁", "🐴", "🐶", "🐷", "🐻‍❄️", "🦊", "🐨"]
-    
-    @State var selectedGroup: [String] = []
+    let viewModel: EmojiMemoryGame
     
     var body: some View {
         
@@ -26,22 +22,19 @@ struct ContentView: View {
             
             ScrollView {
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 70))]) {
-                    ForEach(selectedGroup.shuffled(), id: \.self) { emoji in
-                        CardView(cardContent: emoji)
+                    ForEach(viewModel.cards) { card in
+                        CardView(card: card)
                             .aspectRatio(2/3, contentMode: .fit)
                     }
                 }
             }
             .foregroundColor(.red)
             .font(.largeTitle)
-            .onAppear(){
-                selectedGroup = vehicles
-            }
             
             HStack {
                 
                 Button(action: {
-                    selectedGroup = vehicles
+                    
                 }, label: {
                     VStack {
                         Image(systemName: "car.fill")
@@ -52,7 +45,7 @@ struct ContentView: View {
                 Spacer()
                 
                 Button(action: {
-                    selectedGroup = fruits
+                    
                 }, label: {
                     VStack {
                         Image(systemName: "leaf.fill")
@@ -63,7 +56,7 @@ struct ContentView: View {
                 Spacer()
                 
                 Button(action: {
-                    selectedGroup = animals
+                    
                 }, label: {
                     VStack {
                         Image(systemName: "tortoise.fill")
@@ -79,28 +72,25 @@ struct ContentView: View {
 
 struct CardView: View {
     
-    var cardContent: String
-    @State var faceUp = false
+    let card: MemoryGame<String>.Card
     
     var body: some View {
         ZStack {
             let shape = RoundedRectangle(cornerRadius: 25)
-            if faceUp {
+            if card.isFaceUp {
                 shape.fill().foregroundColor(.white)
                 shape.strokeBorder(lineWidth: 3)
-                Text(cardContent).font(.largeTitle)
+                Text(card.content).font(.largeTitle)
             } else {
                 shape.fill()
             }
-        }
-        .onTapGesture {
-            faceUp = !faceUp
         }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        let game = EmojiMemoryGame()
+        ContentView(viewModel: game)
     }
 }
