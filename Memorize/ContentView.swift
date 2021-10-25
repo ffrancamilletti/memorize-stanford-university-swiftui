@@ -27,7 +27,7 @@ struct ContentView: View {
                             .aspectRatio(2/3, contentMode: .fit)
                             .onTapGesture {
                                 viewModel.choose(card)
-                            }
+                        }
                     }
                 }
             }
@@ -94,6 +94,8 @@ struct CardView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         let game = EmojiMemoryGame()
-        ContentView(viewModel: game)
+        Group {
+            ContentView(viewModel: game)
+        }
     }
 }
