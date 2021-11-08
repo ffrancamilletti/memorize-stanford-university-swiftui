@@ -17,13 +17,15 @@ class EmojiMemoryGame: ObservableObject {
         }
     }
     
+    //MARK: ViewModel Interpretation
+    
     @Published private(set) var model: MemoryGame<String> = createMemoryGame()
     
     var cards: Array<MemoryGame<String>.Card> {
         model.cards
     }
     
-    // MARK: - Intent(s)
+    //MARK: User Intents
     
     func choose(_ card: MemoryGame<String>.Card) {
         model.choose(card)
