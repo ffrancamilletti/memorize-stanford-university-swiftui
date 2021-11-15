@@ -33,41 +33,6 @@ struct ContentView: View {
             }
             .foregroundColor(.red)
             .font(.largeTitle)
-            
-            HStack {
-                
-                Button(action: {
-                    
-                }, label: {
-                    VStack {
-                        Image(systemName: "car.fill")
-                        Text("Vehicles")
-                    }
-                })
-                
-                Spacer()
-                
-                Button(action: {
-                    
-                }, label: {
-                    VStack {
-                        Image(systemName: "leaf.fill")
-                        Text("Fruits")
-                    }
-                })
-                
-                Spacer()
-                
-                Button(action: {
-                    
-                }, label: {
-                    VStack {
-                        Image(systemName: "tortoise.fill")
-                        Text("Animals")
-                    }
-                })
-            }
-            .padding(.horizontal, 40.0)
         }
         .padding(.all)
     }
