@@ -9,11 +9,16 @@ import SwiftUI
 
 class EmojiMemoryGame: ObservableObject {
     
-    static let vehicles = ["🛳", "🏍", "🛵", "🚀", "🚅", "🚜", "✈️", "🚗", "🛴", "⛵️","🚤","🚑","🚛"]
+    static let Vehicles = ["🛳","🏍","🛵","🚀","🚅","🚜","✈️","🚗","🛴"]
+    static let Animals = ["🐓","🐭","🐹","🐻","🐧","🐷","🐶"]
+    static let Fruits = ["🍑","🍋","🍒","🥝","🥥","🍓","🥭","🍎","🍌"]
+    static let Plants = ["🌷","🌺","🌴","🌱","🌲","🍄"]
+    static let Food = ["🍕","🍗","🍖","🍔","🥐","🍟"]
+    static let Objects = ["📸","☎️","📱","⏳","⏰","🧨","🔮"]
     
     static func createMemoryGame() -> MemoryGame<String> {
         MemoryGame<String>(numberOfPairsOfCards: 6) { pairIndex in
-            vehicles[pairIndex]
+            Vehicles[pairIndex]
         }
     }
     
@@ -30,5 +35,4 @@ class EmojiMemoryGame: ObservableObject {
     func choose(_ card: MemoryGame<String>.Card) {
         model.choose(card)
     }
-    
 }

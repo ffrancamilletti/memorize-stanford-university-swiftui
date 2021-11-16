@@ -19,6 +19,20 @@ struct ContentView: View {
                 .font(.largeTitle)
                 .fontWeight(.medium)
                 .foregroundColor(Color.blue)
+
+            HStack {
+                Text("Theme: Theme")
+                    .font(.title2)
+                
+                Spacer()
+                
+                Text("Points: 1")
+                    .font(.title2)
+                    .fontWeight(.bold)
+            }
+            .padding(.top, -10.0)
+            .padding(.bottom, 10.0)
+            .padding(/*@START_MENU_TOKEN@*/.horizontal, 8.0/*@END_MENU_TOKEN@*/)
             
             ScrollView {
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 70))]) {
@@ -33,6 +47,11 @@ struct ContentView: View {
             }
             .foregroundColor(.red)
             .font(.largeTitle)
+            
+            Button("New Game!") {
+                print("button!")
+            }
+            .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
         }
         .padding(.all)
     }
