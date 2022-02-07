@@ -21,14 +21,14 @@ struct ContentView: View {
                 .foregroundColor(Color.blue)
 
             HStack {
-                Text("Theme: Theme")
-                    .font(.title2)
+                Text(viewModel.themeName)
+                .font(.title2)
+                .fontWeight(.bold)
                 
                 Spacer()
                 
-                Text("Points: 1")
-                    .font(.title2)
-                    .fontWeight(.bold)
+                Text("Score: \(viewModel.score)")
+                .font(.title2)
             }
             .padding(.top, -10.0)
             .padding(.bottom, 10.0)
@@ -45,11 +45,13 @@ struct ContentView: View {
                     }
                 }
             }
-            .foregroundColor(.red)
+            .foregroundColor(viewModel.themeColor)
             .font(.largeTitle)
             
-            Button("New Game!") {
-                print("button!")
+            Button {
+                viewModel.newGame()
+            } label: {
+                Text("New Game!")
             }
             .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
         }
