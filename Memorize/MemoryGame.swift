@@ -19,7 +19,6 @@ struct Theme {
         self.numberOfPairsOfCards = numberOfPairsOfCards > emojis.count ? emojis.count : numberOfPairsOfCards
         self.cardColor = cardColor
     }
-    
 }
 
 struct MemoryGame<CardContent> where CardContent: Equatable {
@@ -40,8 +39,7 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
                     cards[potentialMatchIndex].isMatched = true
                     score += 2
                 } else {
-                    if cards[chosenIndex].hasCardBeenSeen || cards[potentialMatchIndex].hasCardBeenSeen
-                    {
+                    if cards[chosenIndex].hasCardBeenSeen || cards[potentialMatchIndex].hasCardBeenSeen {
                         score -= 1
                     }
                 }
@@ -55,7 +53,6 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
                 }
                 indexOfTheOneAndOnlyFaceUpCard = chosenIndex
             }
-            
             cards[chosenIndex].isFaceUp.toggle()
         }
     }

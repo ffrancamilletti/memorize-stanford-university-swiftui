@@ -15,7 +15,7 @@ class EmojiMemoryGame: ObservableObject {
         model = EmojiMemoryGame.createMemoryGame(theme: theme)
     }
     
-    static var themes: Array<Theme> = [
+    private static var themes: Array<Theme> = [
         Theme(name: "Vehicles", emojis: ["🛳","🏍","🛵","🚀","🚅","🚜","✈️","🚗","🛴"], numberOfPairsOfCards: 5, cardColor: "blue"),
         Theme(name: "Fruits", emojis: ["🍑","🍋","🍒","🥝","🥥","🍓","🥭","🍎","🍌"], numberOfPairsOfCards: 4, cardColor: "red"),
         Theme(name: "Animals", emojis: ["🐓","🐭","🐹","🐻","🐧","🐷","🐶"], numberOfPairsOfCards: 6, cardColor: "pink"),
@@ -24,15 +24,19 @@ class EmojiMemoryGame: ObservableObject {
         Theme(name: "Objects", emojis: ["📸","☎️","📱","⏳","⏰","🧨","🔮"], numberOfPairsOfCards: 6, cardColor: "orange")
     ]
     
-    static func createMemoryGame(theme: Theme) -> MemoryGame<String> {
+    private static func createMemoryGame(theme: Theme) -> MemoryGame<String> {
         MemoryGame<String>(numberOfPairsOfCards: theme.numberOfPairsOfCards) { pairIndex in
             theme.emojis[pairIndex]
         }
     }
     
     @Published private(set) var model: MemoryGame<String>
-
+    
     private var theme: Theme
+    
+    var themeName: String {
+        return theme.name
+    }
     
     var score: Int {
         return model.score
@@ -40,25 +44,21 @@ class EmojiMemoryGame: ObservableObject {
     
     var themeColor: Color {
         switch theme.cardColor {
-            case "blue":
-                return .blue
-            case "red":
-                return .red
-            case "pink":
-                return .pink
-            case "green":
-                return .green
-            case "yellow":
-                return .yellow
-            case "orange":
-                return .orange
-            default:
-                return .black
+        case "blue":
+            return .blue
+        case "red":
+            return .red
+        case "pink":
+            return .pink
+        case "green":
+            return .green
+        case "yellow":
+            return .yellow
+        case "orange":
+            return .orange
+        default:
+            return .black
         }
-    }
-    
-    var themeName: String {
-        return theme.name
     }
     
     var cards: Array<MemoryGame<String>.Card> {

@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  EmojiMemoryGameView.swift
 //  Memorize
 //
 //  Created by Franco on 19/08/2021.
@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct EmojiMemoryGameView: View {
     
-    @ObservedObject var viewModel: EmojiMemoryGame
+    @ObservedObject var game: EmojiMemoryGame
     
     var body: some View {
         
@@ -19,16 +19,16 @@ struct ContentView: View {
                 .font(.largeTitle)
                 .fontWeight(.medium)
                 .foregroundColor(Color.blue)
-
+            
             HStack {
-                Text(viewModel.themeName)
-                .font(.title2)
-                .fontWeight(.bold)
+                Text(game.themeName)
+                    .font(.title2)
+                    .fontWeight(.bold)
                 
                 Spacer()
                 
-                Text("Score: \(viewModel.score)")
-                .font(.title2)
+                Text("Score: \(game.score)")
+                    .font(.title2)
             }
             .padding(.top, -10.0)
             .padding(.bottom, 10.0)
@@ -36,20 +36,20 @@ struct ContentView: View {
             
             ScrollView {
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 70))]) {
-                    ForEach(viewModel.cards) { card in
+                    ForEach(game.cards) { card in
                         CardView(card: card)
                             .aspectRatio(2/3, contentMode: .fit)
                             .onTapGesture {
-                                viewModel.choose(card)
-                        }
+                                game.choose(card)
+                            }
                     }
                 }
             }
-            .foregroundColor(viewModel.themeColor)
+            .foregroundColor(game.themeColor)
             .font(.largeTitle)
             
             Button {
-                viewModel.newGame()
+                game.newGame()
             } label: {
                 Text("New Game!")
             }
@@ -83,7 +83,7 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         let game = EmojiMemoryGame()
         Group {
-            ContentView(viewModel: game)
+            EmojiMemoryGameView(game: game)
         }
     }
 }
