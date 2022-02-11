@@ -9,6 +9,18 @@ import SwiftUI
 
 class EmojiMemoryGame: ObservableObject {
     
+    func newGame() {
+        theme = EmojiMemoryGame.themes.randomElement()!
+        theme.emojis.shuffle()
+        model = EmojiMemoryGame.createMemoryGame(theme: theme)
+    }
+    
+    init() {
+        theme = EmojiMemoryGame.themes.randomElement()!
+        theme.emojis.shuffle()
+        model = EmojiMemoryGame.createMemoryGame(theme: theme)
+    }
+    
     private static var themes: Array<Theme> = [
         Theme(name: "Vehicles", emojis: ["🛳","🏍","🛵","🚀","🚅","🚜","✈️","🚗","🛴"], numberOfPairsOfCards: 5, cardColor: "blue"),
         Theme(name: "Fruits", emojis: ["🍑","🍋","🍒","🥝","🥥","🍓","🥭","🍎","🍌"], numberOfPairsOfCards: 4, cardColor: "red"),
@@ -63,17 +75,5 @@ class EmojiMemoryGame: ObservableObject {
     
     func choose(_ card: MemoryGame<String>.Card) {
         model.choose(card)
-    }
-    
-    func newGame() {
-        theme = EmojiMemoryGame.themes.randomElement()!
-        theme.emojis.shuffle()
-        model = EmojiMemoryGame.createMemoryGame(theme: theme)
-    }
-    
-    init() {
-        theme = EmojiMemoryGame.themes.randomElement()!
-        theme.emojis.shuffle()
-        model = EmojiMemoryGame.createMemoryGame(theme: theme)
     }
 }
