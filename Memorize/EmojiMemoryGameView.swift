@@ -14,19 +14,15 @@ struct EmojiMemoryGameView: View {
     var body: some View {
         
         VStack {
-            
             Text("Memorize!")
                 .font(.largeTitle)
                 .fontWeight(.medium)
                 .foregroundColor(Color.blue)
-            
             HStack {
                 Text(game.themeName)
                     .font(.title2)
                     .fontWeight(.bold)
-                
                 Spacer()
-                
                 Text("Score: \(game.score)")
                     .font(.title2)
             }
@@ -34,19 +30,17 @@ struct EmojiMemoryGameView: View {
             .padding(.bottom, 10.0)
             .padding(/*@START_MENU_TOKEN@*/.horizontal, 8.0/*@END_MENU_TOKEN@*/)
             
-//            ScrollView {
-//                LazyVGrid(columns: [GridItem(.adaptive(minimum: 70))]) {
-//                    ForEach(game.cards) { card in
-            AspectVGrid(items: game.cards, aspectRatio: 2/3, content: {card in
-                        CardView(card: card)
-                            .padding(4)
-                            .onTapGesture {
-                                game.choose(card)
-                            }
-            })
-//                    }
-//                }
-//            }
+            AspectVGrid(items: game.cards, aspectRatio: 2/3) { card in
+                if card.isMatched && !card.isFaceUp {
+                    Rectangle().opacity(0)
+                } else {
+                    CardView(card: card)
+                        .padding(4)
+                        .onTapGesture {
+                            game.choose(card)
+                        }
+                }
+            }
             .foregroundColor(game.themeColor)
             .font(.largeTitle)
             
@@ -88,9 +82,9 @@ struct CardView: View {
     }
     
     private struct DrawingConstants {
-        static let cornerRadius: CGFloat = 20
+        static let cornerRadius: CGFloat = 15
         static let lineWidth: CGFloat = 3
-        static let emojiFontScale: CGFloat = 0.7
+        static let emojiFontScale: CGFloat = 0.75
     }
     
 }
