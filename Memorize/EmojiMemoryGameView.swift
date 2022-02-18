@@ -67,9 +67,11 @@ struct CardView: View {
                 if card.isFaceUp {
                     shape.fill().foregroundColor(.white)
                     shape.strokeBorder(lineWidth: DrawingConstants.lineWidth)
+                    Pie(startAngle: Angle(degrees: -90), endAngle: Angle (degrees: 20))
+                        .padding(DrawingConstants.piePadding).opacity(DrawingConstants.pieOpacity)
                     Text(card.content).font(font(in: geometry.size))
                 } else if card.isMatched {
-                    shape.opacity(0)
+                    shape.opacity(DrawingConstants.cardOpacity)
                 } else {
                     shape.fill()
                 }
@@ -84,7 +86,10 @@ struct CardView: View {
     private struct DrawingConstants {
         static let cornerRadius: CGFloat = 15
         static let lineWidth: CGFloat = 3
-        static let emojiFontScale: CGFloat = 0.75
+        static let emojiFontScale: CGFloat = 0.70
+        static let piePadding: CGFloat = 5
+        static let pieOpacity: CGFloat = 0.5
+        static let cardOpacity: CGFloat = 0
     }
     
 }
@@ -108,8 +113,7 @@ struct CardView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         let game = EmojiMemoryGame()
-        Group {
-            EmojiMemoryGameView(game: game)
-        }
+        game.choose(game.cards.first!)
+            return EmojiMemoryGameView(game: game)
     }
 }
