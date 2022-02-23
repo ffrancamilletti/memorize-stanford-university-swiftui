@@ -14,15 +14,19 @@ struct EmojiMemoryGameView: View {
     var body: some View {
         
         VStack {
+            
             Text("Memorize!")
                 .font(.largeTitle)
                 .fontWeight(.medium)
                 .foregroundColor(Color.blue)
+            
             HStack {
                 Text(game.themeName)
                     .font(.title2)
                     .fontWeight(.bold)
+                
                 Spacer()
+                
                 Text("Score: \(game.score)")
                     .font(.title2)
             }
@@ -38,7 +42,7 @@ struct EmojiMemoryGameView: View {
                         .padding(4)
                         .onTapGesture {
                             game.choose(card)
-                        }
+                    }
                 }
             }
             .foregroundColor(game.themeColor)
@@ -58,7 +62,6 @@ struct EmojiMemoryGameView: View {
 struct CardView: View {
     
     let card: MemoryGame<String>.Card
-    
     var body: some View {
         
         GeometryReader { geometry in
@@ -93,22 +96,6 @@ struct CardView: View {
     }
     
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
