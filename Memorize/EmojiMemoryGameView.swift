@@ -66,19 +66,11 @@ struct CardView: View {
         
         GeometryReader { geometry in
             ZStack {
-                let shape = RoundedRectangle(cornerRadius: DrawingConstants.cornerRadius)
-                if card.isFaceUp {
-                    shape.fill().foregroundColor(.white)
-                    shape.strokeBorder(lineWidth: DrawingConstants.lineWidth)
                     Pie(startAngle: Angle(degrees: -90), endAngle: Angle (degrees: 20))
                         .padding(DrawingConstants.piePadding).opacity(DrawingConstants.pieOpacity)
                     Text(card.content).font(font(in: geometry.size))
-                } else if card.isMatched {
-                    shape.opacity(DrawingConstants.cardOpacity)
-                } else {
-                    shape.fill()
-                }
             }
+            .cardify(isFaceUp: card.isFaceUp)
         }
     }
     
@@ -87,8 +79,6 @@ struct CardView: View {
     }
     
     private struct DrawingConstants {
-        static let cornerRadius: CGFloat = 15
-        static let lineWidth: CGFloat = 3
         static let emojiFontScale: CGFloat = 0.70
         static let piePadding: CGFloat = 5
         static let pieOpacity: CGFloat = 0.5

@@ -41,11 +41,11 @@ class EmojiMemoryGame: ObservableObject {
     private var theme: Theme
     
     var themeName: String {
-        return theme.name
+        theme.name
     }
     
     var score: Int {
-        return model.score
+        model.score
     }
     
     var themeColor: Color {
