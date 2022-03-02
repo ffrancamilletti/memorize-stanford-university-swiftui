@@ -10,14 +10,11 @@ import SwiftUI
 class EmojiMemoryGame: ObservableObject {
     
     func newGame() {
-        theme = EmojiMemoryGame.themes.randomElement()!
-        theme.emojis.shuffle()
         model = EmojiMemoryGame.createMemoryGame(theme: theme)
+        theme.emojis.shuffle()
     }
     
     init() {
-        theme = EmojiMemoryGame.themes.randomElement()!
-        theme.emojis.shuffle()
         model = EmojiMemoryGame.createMemoryGame(theme: theme)
     }
     
@@ -26,7 +23,7 @@ class EmojiMemoryGame: ObservableObject {
         Theme(name: "Fruits", emojis: ["🍑","🍋","🍒","🥝","🥥","🍓","🥭","🍎","🍌"], numberOfPairsOfCards: 4, cardColor: "red"),
         Theme(name: "Animals", emojis: ["🐓","🐭","🐹","🐻","🐧","🐷","🐶"], numberOfPairsOfCards: 6, cardColor: "pink"),
         Theme(name: "Plants", emojis: ["🌷","🌺","🌴","🌱","🌲","🍄"], numberOfPairsOfCards: 7, cardColor: "green"),
-        Theme(name: "Food", emojis: ["🍕","🍗","🍖","🍔","🥐","🍟"], numberOfPairsOfCards: 3, cardColor: "yellow"),
+        Theme(name: "Food", emojis: ["🍕","🍗","🍖","🍔","🥐","🍟"], numberOfPairsOfCards: 5, cardColor: "yellow"),
         Theme(name: "Objects", emojis: ["📸","☎️","📱","⏳","⏰","🧨","🔮"], numberOfPairsOfCards: 6, cardColor: "orange")
     ]
     
@@ -38,7 +35,7 @@ class EmojiMemoryGame: ObservableObject {
     
     @Published private(set) var model: MemoryGame<String>
     
-    private var theme: Theme
+    private var theme: Theme = EmojiMemoryGame.themes.randomElement()!
     
     var themeName: String {
         theme.name
