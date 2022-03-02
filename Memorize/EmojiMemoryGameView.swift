@@ -36,13 +36,14 @@ struct EmojiMemoryGameView: View {
             
             AspectVGrid(items: game.cards, aspectRatio: 2/3) { card in
                 if card.isMatched && !card.isFaceUp {
-                    Rectangle().opacity(0)
+                    Rectangle()
+                        .opacity(0)
                 } else {
                     CardView(card: card)
                         .padding(4)
                         .onTapGesture {
                             game.choose(card)
-                    }
+                        }
                 }
             }
             .foregroundColor(game.themeColor)
@@ -66,25 +67,30 @@ struct CardView: View {
         
         GeometryReader { geometry in
             ZStack {
-                    Pie(startAngle: Angle(degrees: -90), endAngle: Angle (degrees: 20))
-                        .padding(DrawingConstants.piePadding).opacity(DrawingConstants.pieOpacity)
-                    Text(card.content).font(font(in: geometry.size))
+                Pie(startAngle: Angle(degrees: -90), endAngle: Angle (degrees: 20))
+                    .padding(DrawingConstants.piePadding)
+                    .opacity(DrawingConstants.pieOpacity)
+                Text(card.content)
+                    .rotationEffect(Angle.degrees(card.isMatched ? 360 : 0))
+                    .animation(Animation.linear.repeatForever(autoreverses: false))
+                    .font(Font.system(size: DrawingConstants.fontSize))
+                    .scaleEffect(scale(thatFits: geometry.size))
             }
             .cardify(isFaceUp: card.isFaceUp)
         }
     }
     
-    private func font (in size: CGSize) -> Font {
-        Font.system(size: min(size.width, size.height) * DrawingConstants.emojiFontScale)
+    private func scale(thatFits size: CGSize) -> CGFloat {
+        min(size.width, size.height) / (DrawingConstants.fontSize / DrawingConstants.fontScale)
     }
     
     private struct DrawingConstants {
-        static let emojiFontScale: CGFloat = 0.70
+        static let fontSize: CGFloat = 32
+        static let fontScale: CGFloat = 0.70
         static let piePadding: CGFloat = 5
         static let pieOpacity: CGFloat = 0.5
         static let cardOpacity: CGFloat = 0
     }
-    
 }
 
 struct ContentView_Previews: PreviewProvider {

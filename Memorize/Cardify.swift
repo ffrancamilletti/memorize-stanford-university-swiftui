@@ -17,10 +17,11 @@ struct Cardify: ViewModifier {
             if isFaceUp {
                 shape.fill().foregroundColor(.white)
                 shape.strokeBorder(lineWidth: DrawingConstants.lineWidth)
-                content
             } else {
                 shape.fill()
             }
+            content
+                .opacity(isFaceUp ? 1 : 0)
         }
     }
     private struct DrawingConstants {
@@ -28,7 +29,6 @@ struct Cardify: ViewModifier {
         static let lineWidth: CGFloat = 3
     }
 }
-
 
 extension View {
     func cardify(isFaceUp: Bool) -> some View {
