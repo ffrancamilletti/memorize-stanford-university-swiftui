@@ -8,55 +8,77 @@
 import SwiftUI
 
 struct EmojiMemoryGameView: View {
-    
     @ObservedObject var game: EmojiMemoryGame
     
     var body: some View {
-        
         VStack {
-            
-            Text("Memorize!")
-                .font(.largeTitle)
-                .fontWeight(.medium)
-                .foregroundColor(Color.blue)
-            
+            gameTitle
             HStack {
-                Text(game.themeName)
-                    .font(.title2)
-                    .fontWeight(.bold)
-                
+                themeName
                 Spacer()
-                
-                Text("Score: \(game.score)")
-                    .font(.title2)
+                score
             }
             .padding(.top, -10.0)
             .padding(.bottom, 10.0)
             .padding(/*@START_MENU_TOKEN@*/.horizontal, 8.0/*@END_MENU_TOKEN@*/)
-            
-            AspectVGrid(items: game.cards, aspectRatio: 2/3) { card in
-                if card.isMatched && !card.isFaceUp {
-                    Rectangle()
-                        .opacity(0)
-                } else {
-                    CardView(card: card)
-                        .padding(4)
-                        .onTapGesture {
-                            game.choose(card)
-                        }
-                }
-            }
-            .foregroundColor(game.themeColor)
-            .font(.largeTitle)
-            
-            Button {
-                game.newGame()
-            } label: {
-                Text("New Game!")
-            }
-            .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+            gameBody
+            Spacer()
+            newGameButton
+            shuffleButton
         }
         .padding(.all)
+    }
+
+    var gameTitle: some View {
+        Text("Memorize!")
+            .font(.largeTitle)
+            .fontWeight(.medium)
+            .foregroundColor(Color.blue)
+    }
+    
+    var themeName: some View {
+        Text(game.themeName)
+            .font(.title2)
+            .fontWeight(.bold)
+    }
+    
+    var score: some View {
+        Text("Score: \(game.score)")
+            .font(.title2)
+    }
+    
+    var gameBody: some View {
+        AspectVGrid(items: game.cards, aspectRatio: 2/3) { card in
+            if card.isMatched && !card.isFaceUp {
+                Color.clear
+            } else {
+                CardView(card: card)
+                    .padding(4)
+                    .onTapGesture {
+                        withAnimation {
+                            game.choose(card)
+                        }
+                    }
+            }
+        }
+        .foregroundColor(game.themeColor)
+        .font(.largeTitle)
+    }
+    
+    var newGameButton: some View {
+        Button("New Game!") {
+            game.newGame()
+        }
+        .font(.title)
+    }
+    
+    var shuffleButton: some View {
+        Button("Shuffle") {
+            withAnimation {
+                game.shuffle()
+            }
+        }
+        .font(.headline)
     }
 }
 
@@ -92,6 +114,7 @@ struct CardView: View {
         static let cardOpacity: CGFloat = 0
     }
 }
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
