@@ -8,7 +8,18 @@
 import SwiftUI
 
 struct EmojiMemoryGameView: View {
+    
     @ObservedObject var game: EmojiMemoryGame
+    
+    @State private var dealt = Set<Int>()
+    
+    private func deal(_ card: EmojiMemoryGame.Card) {
+        dealt.insert(card.id)
+    }
+    
+    private func isUndealt(_ card: EmojiMemoryGame.Card) -> Bool {
+        return !dealt.contains(card.id)
+    }
     
     var body: some View {
         VStack {
@@ -49,16 +60,24 @@ struct EmojiMemoryGameView: View {
     
     var gameBody: some View {
         AspectVGrid(items: game.cards, aspectRatio: 2/3) { card in
-            if card.isMatched && !card.isFaceUp {
+            if isUndealt(card) || card.isMatched && !card.isFaceUp {
                 Color.clear
             } else {
                 CardView(card: card)
                     .padding(4)
+                    .transition(AnyTransition.asymmetric(insertion: .scale, removal: .opacity))
                     .onTapGesture {
                         withAnimation {
                             game.choose(card)
                         }
                     }
+            }
+        }
+        .onAppear {
+            withAnimation {
+                for card in game.cards {
+                    deal(card)
+                }
             }
         }
         .foregroundColor(game.themeColor)
@@ -94,7 +113,7 @@ struct CardView: View {
                     .opacity(DrawingConstants.pieOpacity)
                 Text(card.content)
                     .rotationEffect(Angle.degrees(card.isMatched ? 360 : 0))
-                    .animation(Animation.linear.repeatForever(autoreverses: false))
+                    .animation(Animation.linear.repeatForever(autoreverses: false).speed(0.7))
                     .font(Font.system(size: DrawingConstants.fontSize))
                     .scaleEffect(scale(thatFits: geometry.size))
             }
