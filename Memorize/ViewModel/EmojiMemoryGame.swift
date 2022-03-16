@@ -9,15 +9,16 @@ import SwiftUI
 
 class EmojiMemoryGame: ObservableObject {
     
+    @Published private(set) var model: MemoryGame<String>
     typealias Card = MemoryGame<String>.Card
     
     private static var themes: Array<Theme> = [
-        Theme(name: "Vehicles", emojis: ["🛳","🏍","🛵","🚀","🚅","🚜","✈️","🚗","🛴"], numberOfPairsOfCards: 6, cardColor: "blue"),
-        Theme(name: "Fruits", emojis: ["🍑","🍋","🍒","🥝","🥥","🍓","🥭","🍎","🍌"], numberOfPairsOfCards: 6, cardColor: "red"),
-        Theme(name: "Animals", emojis: ["🐓","🐭","🐹","🐻","🐧","🐷","🐶"], numberOfPairsOfCards: 6, cardColor: "pink"),
-        Theme(name: "Plants", emojis: ["🌷","🌺","🌴","🌱","🌲","🍄"], numberOfPairsOfCards: 6, cardColor: "green"),
-        Theme(name: "Food", emojis: ["🍕","🍗","🍖","🍔","🥐","🍟"], numberOfPairsOfCards: 6, cardColor: "yellow"),
-        Theme(name: "Objects", emojis: ["📸","☎️","📱","⏳","⏰","🧨","🔮"], numberOfPairsOfCards: 6, cardColor: "orange")
+        Theme(name: "Vehicles", emojis: ["🛳","🏍","🛵","🚀","🚅","🚜","✈️","🚗"], numberOfPairsOfCards: 8, cardColor: "blue"),
+        Theme(name: "Fruits", emojis: ["🍑","🍋","🍒","🥝","🥥","🍓","🥭","🍎"], numberOfPairsOfCards: 8, cardColor: "red"),
+        Theme(name: "Animals", emojis: ["🐓","🐭","🐹","🐻","🐧","🐷","🐶","🙉"], numberOfPairsOfCards: 8, cardColor: "pink"),
+        Theme(name: "Plants", emojis: ["🌷","🌺","🌴","🌱","🌲","🍄","🌾","🌻"], numberOfPairsOfCards: 8, cardColor: "green"),
+        Theme(name: "Food", emojis: ["🍕","🍗","🍖","🍔","🥐","🍟","🥪","🧀"], numberOfPairsOfCards: 8, cardColor: "yellow"),
+        Theme(name: "Objects", emojis: ["📸","☎️","📱","⏳","⏰","🧨","🔮","⛱"], numberOfPairsOfCards: 8, cardColor: "orange")
     ]
     
     private static func createMemoryGame(theme: Theme) -> MemoryGame<String> {
@@ -25,8 +26,6 @@ class EmojiMemoryGame: ObservableObject {
             theme.emojis[pairIndex]
         }
     }
-    
-    @Published private(set) var model: MemoryGame<String>
     
     private var theme: Theme
     

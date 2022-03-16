@@ -24,7 +24,7 @@ struct EmojiMemoryGameView: View {
                 .padding(/*@START_MENU_TOKEN@*/.horizontal, 8.0/*@END_MENU_TOKEN@*/)
                 gameBody
                 HStack {
-                    newGameButton
+                    restartButton
                     Spacer()
                     shuffleButton
                 }
@@ -33,6 +33,24 @@ struct EmojiMemoryGameView: View {
             deckBody
         }
         .padding(.all)
+    }
+    
+    var gameTitle: some View {
+        Text("Memorize!")
+            .font(.largeTitle)
+            .fontWeight(.medium)
+            .foregroundColor(Color.blue)
+    }
+    
+    var themeName: some View {
+        Text(game.themeName)
+            .font(.title2)
+            .fontWeight(.bold)
+    }
+    
+    var score: some View {
+        Text("Score: \(game.score)")
+            .font(.title2)
     }
     
     @State private var dealt = Set<Int>()
@@ -58,24 +76,6 @@ struct EmojiMemoryGameView: View {
         -Double(game.cards.firstIndex(where: { $0.id == card.id }) ?? 0)
     }
     
-    var gameTitle: some View {
-        Text("Memorize!")
-            .font(.largeTitle)
-            .fontWeight(.medium)
-            .foregroundColor(Color.blue)
-    }
-    
-    var themeName: some View {
-        Text(game.themeName)
-            .font(.title2)
-            .fontWeight(.bold)
-    }
-    
-    var score: some View {
-        Text("Score: \(game.score)")
-            .font(.title2)
-    }
-    
     var gameBody: some View {
         AspectVGrid(items: game.cards, aspectRatio: CardConstants.aspectRatio) { card in
             if isUndealt(card) || card.isMatched && !card.isFaceUp {
@@ -97,6 +97,16 @@ struct EmojiMemoryGameView: View {
         .font(.largeTitle)
     }
     
+    var restartButton: some View {
+        Button("Restart") {
+            withAnimation(.easeInOut) {
+                dealt = []
+            }
+            game.restart()
+        }
+        .font(.headline)
+    }
+    
     var deckBody: some View {
         ZStack {
             ForEach(game.cards.filter(isUndealt)) { card in
@@ -109,22 +119,12 @@ struct EmojiMemoryGameView: View {
         .frame(width: CardConstants.undealtWidth, height: CardConstants.undealtHeight)
         .foregroundColor(game.themeColor)
         .onTapGesture {
-            for card in game.cards{
+            game.cards.forEach { card in
                 withAnimation(dealAnimation(for: card)) {
                     deal(card)
                 }
             }
         }
-    }
-    
-    var newGameButton: some View {
-        Button("Restart") {
-            withAnimation(.easeInOut) {
-                dealt = []
-            }
-            game.restart()
-        }
-        .font(.headline)
     }
     
     var shuffleButton: some View {
@@ -145,51 +145,6 @@ struct EmojiMemoryGameView: View {
     }
 }
 
-struct CardView: View {
-    
-    let card: EmojiMemoryGame.Card
-    @State private var animatedBonusRemaining: Double = 0
-    
-    var body: some View {
-        GeometryReader { geometry in
-            ZStack {
-                Group {
-                    if card.isConsumingBonusTime {
-                        Pie(startAngle: Angle(degrees: 0-90), endAngle: Angle(degrees: (1-animatedBonusRemaining)*360-90))
-                            .onAppear {
-                                withAnimation {
-                                    animatedBonusRemaining = card.bonusRemaining
-                                    withAnimation(.linear(duration: card.bonusTimeRemaining)) {
-                                        animatedBonusRemaining = 0
-                                    }
-                                }
-                            }
-                    } else {
-                        Pie(startAngle: Angle(degrees: 0-90), endAngle: Angle (degrees: (1-card.bonusRemaining)*360-90))
-                    }
-                }
-                .padding(5)
-                .opacity(0.5)
-                Text(card.content)
-                    .rotationEffect(Angle.degrees(card.isMatched ? 360 : 0))
-                    .animation(Animation.linear.repeatForever(autoreverses: false).speed(DrawingConstants.spinSpeed))
-                    .font(Font.system(size: DrawingConstants.fontSize))
-                    .scaleEffect(scale(thatFits: geometry.size))
-            }
-            .cardify(isFaceUp: card.isFaceUp)
-        }
-    }
-    
-    private func scale(thatFits size: CGSize) -> CGFloat {
-        min(size.width, size.height) / (DrawingConstants.fontSize / DrawingConstants.fontScale)
-    }
-    
-    private struct DrawingConstants {
-        static let fontSize: CGFloat = 25
-        static let fontScale: CGFloat = 0.70
-        static let spinSpeed: Double = 0.7
-    }
-}
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
